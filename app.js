@@ -21,8 +21,8 @@ taskForm.addEventListener("submit", function (event) {
       taskInput.value ="";
 });
 
-taskList.addEventListener("click", function (event){
-    if (event.target.tagName === "LI"){
-        event.target.remove();
+ taskList.addEventListener("click", function (event) {
+    if (event.target.tagName === "LI") {
+        event.target.classList.toggle("completed");
     }
 });
