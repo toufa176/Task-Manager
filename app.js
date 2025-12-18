@@ -10,17 +10,19 @@ taskForm.addEventListener("submit", function (event) {
 
     const taskText = taskInput.value.trim();
 
-    if(taskText === ""){
+    if(taskText === "")
         return;
-    }
 
     const li = document.createElement("li");
     li.textContent = taskText;
-    li.addEventListener("click" , function(){
-          li.remove();
-    });
+    
     taskList.appendChild(li);
 
       taskInput.value ="";
-      console.log(taskText);
+});
+
+taskList.addEventListener("click", function (event){
+    if (event.target.tagName === "LI"){
+        event.target.remove();
+    }
 });
