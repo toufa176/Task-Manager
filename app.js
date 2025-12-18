@@ -14,15 +14,19 @@ taskForm.addEventListener("submit", function (event) {
         return;
     }
     const li = document.createElement("li");
-    li.textContent = taskText;
+    li.innerHTML = `
+        <span class="task-text">${taskText}</span>
+        <button class="delete-btn">❌</button>
+        `;
     
     taskList.appendChild(li);
 
       taskInput.value ="";
 });
 
- taskList.addEventListener("click", function (event) {
-    if (event.target.tagName === "LI") {
-        event.target.classList.toggle("completed");
+ taskList.addEventListener("click", function(event){
+    if (event.target.cllassList.contains("delete-btn")){
+        event.target.parentElement.remove();
+        return;
     }
-});
+ });

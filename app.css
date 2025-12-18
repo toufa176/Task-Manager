@@ -2,3 +2,9 @@
     text-decoration: line-through;
     color: #888;
 }
+.delete-btn {
+    margin-left: 10px;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
