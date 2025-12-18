@@ -10,9 +10,9 @@ taskForm.addEventListener("submit", function (event) {
 
     const taskText = taskInput.value.trim();
 
-    if(taskText === "")
+    if(taskText === ""){
         return;
-
+    }
     const li = document.createElement("li");
     li.textContent = taskText;
     
