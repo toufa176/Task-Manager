@@ -8,3 +8,7 @@
     background: none;
     border: none;
 }
+
+.task-text {
+    cursor: pointer;
+}
