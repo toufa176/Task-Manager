@@ -1,51 +1,57 @@
- 
-console.log("Task Manager loaded");
-
+ console.log("Task Manager loaded");
 
 const taskForm = document.getElementById("taskForm");
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
+
 let currentFilter = "all";
+let tasks = loadTasks();   // ✅ MUST BE HERE
+let clickTimer = null;
 
 taskForm.addEventListener("submit", function (event) {
     event.preventDefault();
 
     const taskText = taskInput.value.trim();
+    if (taskText === "") return;
 
-    if(taskText === ""){
-        return;
-    }
     tasks.push({
+        id: Date.now(),
         text: taskText,
         completed: false
     });
+
     saveTasks(tasks);
     renderTasks();
-    
     taskInput.value = "";
 });
 
-document.querySelector(".filters").addEventListener("click", function (event){
-    if(event.target.tagName === "BUTTON"){
-        currentFilter = event.target.dataset.filter;
+
+  taskList.addEventListener("click", function (event) {
+    if (!event.target.classList.contains("task-text")&&
+       !event.target.classList.contains("delete-btn")) return;
+
+    const id = Number(event.target.dataset.id);
+
+    //DELETE - execute immediately
+
+
+     if (event.target.classList.contains("delete-btn")){
+        clearTimeout(clickTimer);
+        tasks =tasks.filter(task => task.id !== id);
+        saveTasks(tasks);
         renderTasks();
-    }
-});
+        return;
+     }
+    // TOGGLE - delay to allow dblclick cancle
+    clearTimeout(clickTimer);
+    clickTimer = setTimeout(() =>{
+        const task =tasks.find(task=> task.id === id);
+        task.completed = !task.completed;
+        saveTasks(tasks);
+        renderTasks();
+    }, 250);
 
-  taskList.addEventListener("click", function(event){
-    if (event.target.classList.contains("delete-btn")){
-        const index = event.target.dataset.index;
-        tasks.splice(index,1);
-    }
-
-    if (event.target.classList.contains("task-text")){
-        const index = event.target.nextElementSibling.dataset.index;
-        tasks[index].completed = !tasks[index].completed;
-    }
-
-    saveTasks(tasks);
-    renderTasks();
-  })
+  });
 
  function saveTasks(tasks){
     localStorage.setItem("tasks",JSON.stringify(tasks));
@@ -56,7 +62,42 @@ function loadTasks(){
     return data ? JSON.parse(data) :[];
 }
 
-let tasks = loadTasks();
+
+  taskList.addEventListener("dblclick", function (event) {
+     clearTimeout(clickTimer); // cancle single click
+
+    if (!event.target.classList.contains("task-text")) return;
+
+    const id = Number(event.target.dataset.id);
+    const task = tasks.find(task => task.id === id);
+
+    const input = document.createElement("input");
+    input.type = "text";
+    input.value = task.text;
+    input.className = "edit-input";
+
+    event.target.replaceWith(input);
+    input.focus();
+
+    input.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            const newText = input.value.trim();
+            if (newText !== "") task.text = newText;
+            
+            saveTasks(tasks);
+            renderTasks();
+        }
+    });
+
+    input.addEventListener("blur", function () {
+        saveTasks(tasks);
+        renderTasks();
+    });
+});
+
+
+
+ 
 
 function renderTasks() {
     taskList.innerHTML = "";
@@ -67,14 +108,14 @@ function renderTasks() {
         return true;
      });
 
-     filteredTasks.forEach ((task, index) =>{
+     filteredTasks.forEach (task =>{
         const li = document.createElement("li");
 
         li.innerHTML =`
-        <span class="task-text ${task.completed ? "completed" :""}">
+        <span class="task-text ${task.completed ? "completed" :""}" data-id="${task.id}">
         ${task.text}
         </span>
-        <button class="delete-btn" data-index="${index}">❌</button>
+        <button class="delete-btn" data-id="${task.id}">❌</button>
         `;
 
         taskList.appendChild(li);

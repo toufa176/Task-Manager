@@ -21,3 +21,10 @@
     margin-right:10px;
     cursor:pointer;
 }
+
+.edit-input {
+    width: 70%;
+    padding:6px;
+    font-size:1rem;
+    
+}
