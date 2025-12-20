@@ -1,9 +1,11 @@
  
 console.log("Task Manager loaded");
 
+
 const taskForm = document.getElementById("taskForm");
 const taskInput = document.getElementById("taskInput");
 const taskList = document.getElementById("taskList");
+let currentFilter = "all";
 
 taskForm.addEventListener("submit", function (event) {
     event.preventDefault();
@@ -21,6 +23,13 @@ taskForm.addEventListener("submit", function (event) {
     renderTasks();
     
     taskInput.value = "";
+});
+
+document.querySelector(".filters").addEventListener("click", function (event){
+    if(event.target.tagName === "BUTTON"){
+        currentFilter = event.target.dataset.filter;
+        renderTasks();
+    }
 });
 
   taskList.addEventListener("click", function(event){
@@ -52,19 +61,26 @@ let tasks = loadTasks();
 function renderTasks() {
     taskList.innerHTML = "";
 
-    tasks.forEach((task, index) =>{
+     const filteredTasks = tasks.filter(task =>{
+        if (currentFilter === "active") return !task.completed;
+        if (currentFilter === "completed") return task.completed;
+        return true;
+     });
+
+     filteredTasks.forEach ((task, index) =>{
         const li = document.createElement("li");
 
         li.innerHTML =`
-        <span class="task-text ${task.completed? "completed": ""}">
+        <span class="task-text ${task.completed ? "completed" :""}">
         ${task.text}
         </span>
-        <button class="delete-btn" data-index=${index}"> ❌</button>
+        <button class="delete-btn" data-index="${index}">❌</button>
         `;
+
         taskList.appendChild(li);
-
-    });
-
+     });
 }
 
 renderTasks();
+
+ 

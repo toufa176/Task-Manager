@@ -12,3 +12,12 @@
 .task-text {
     cursor: pointer;
 }
+
+.filters {
+    margin-bottom: 20px;
+}
+
+.filters button {
+    margin-right:10px;
+    cursor:pointer;
+}
