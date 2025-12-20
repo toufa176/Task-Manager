@@ -7,6 +7,7 @@ const taskList = document.getElementById("taskList");
 let currentFilter = "all";
 let tasks = loadTasks();   // ✅ MUST BE HERE
 let clickTimer = null;
+let draggedTaskId = null;
 localStorage.clear();
  
 
@@ -98,8 +99,31 @@ function loadTasks(){
 });
 
 
+taskList.addEventListener("dragstart", function(event){
+    draggedTaskId = event.target.dataset.id;
+    event.target.classList.add("dragging");
+});
 
- 
+taskList.addEventListener("dragend", function(event){
+    event.target.classList.remove("dragging");
+});
+
+taskList.addEventListener("dragover", function(event){
+    event.preventDefault();
+
+    const target = event.target.closest("li");
+    if (!target|| target.dataset.id === draggedTaskId) return;
+
+    const draggedIndex = taks.findIndex(t => t.id == draggedTaskId);
+    const targetIndex = tasks.findIndex(t => t.id == target.dataset.id);
+
+
+    const draggedTask = tasks.splice(draggedIndex, 1)[0];
+    tasks.splice(targetIndex, 0, draggedTask);
+
+    saveTasks(tasks);
+    renderTasks();
+});
 
 function renderTasks() {
     taskList.innerHTML = "";
@@ -112,6 +136,8 @@ function renderTasks() {
 
      filteredTasks.forEach (task =>{
         const li = document.createElement("li");
+        li.draggable= true;
+        li.dataset.id = task.id;
 
         li.innerHTML =`
         <span class="task-text ${task.completed ? "completed" :""}" data-id="${task.id}">

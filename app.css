@@ -15,16 +15,27 @@
 
 .filters {
     margin-bottom: 20px;
+    display: flex;
+    gap:8px;
 }
 
 .filters button {
     margin-right:10px;
     cursor:pointer;
+    padding: 4px 10px;
 }
 
 .edit-input {
     width: 70%;
     padding:6px;
     font-size:1rem;
-    
+
+}
+
+#taskForm {
+    margin-bottom:16px;
+}
+
+li.dragging {
+    opacity: 0.5;
 }
