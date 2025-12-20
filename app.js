@@ -7,6 +7,8 @@ const taskList = document.getElementById("taskList");
 let currentFilter = "all";
 let tasks = loadTasks();   // ✅ MUST BE HERE
 let clickTimer = null;
+localStorage.clear();
+ 
 
 taskForm.addEventListener("submit", function (event) {
     event.preventDefault();
