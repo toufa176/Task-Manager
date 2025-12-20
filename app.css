@@ -142,3 +142,42 @@ body {
     }
  }
 
+ body {
+    background: #f4f6f8;
+    color:#222;
+    font-family: system-ui, sans-serif;
+    transition: background 0.3s, color 0.3s;
+ }
+
+ .app{
+    background: #ffffff;
+    border-radius:  12px;
+    padding: 20px;
+    box-shadow: 0 10px 25ps rgba(0,0,0,0.08);
+ }
+
+ body.dark .app {
+    background: #020617;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+ }
+
+ body.dark {
+    background: #0f172a;
+    color: #e5e7eb;
+ }
+
+ body.dark input {
+    background: #020617;
+    color: #e5e7eb;
+    border: 1px solid #334155;
+ }
+
+ body.dark li {
+    background: #020617;
+    border: 1px solid #334155;
+ }
+
+ body.dark .task-text.completed {
+    color: #64748b;
+    text-decoration:line-through;
+ }

@@ -46,7 +46,7 @@ taskForm.addEventListener("submit", function (event) {
     // run immediatly when crossed is clicked
 
 
-      if (event.target.classList.conatins("delete-btn")){
+      if (event.target.classList.contains("delete-btn")){  
         const li = event.target.closest("li");
         li.classList.add("removing");
 
@@ -57,7 +57,7 @@ taskForm.addEventListener("submit", function (event) {
         }, 200);
         return;
       }
-      
+
     // TOGGLE - delay to allow dblclick cancle
     clearTimeout(clickTimer);
     clickTimer = setTimeout(() =>{
@@ -195,4 +195,20 @@ function renderTasks() {
 // initial render
 renderTasks();
 
+const themeToggle = document.getElementById("themeToggle");
+
+// load saved theme
+if (localStorage.getItem("theme") === "dark") {
+    document.body.classList.add("dark");
+    themeToggle.textContent = "☀️ Light";
+}
+
+
+themeToggle.addEventListener("click", () =>{
+    document.body.classList.toggle("dark");
+
+    const isDark = document.body.classList.contains("dark");
+    themeToggle.textContent = isDark ? "☀️ Light" : "🌙 Dark";
+    localStorage.setItem("theme", isDark ? "dark" : "light");
+});
  
