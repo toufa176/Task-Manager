@@ -10,41 +10,54 @@ let clickTimer = null;
 let draggedTaskId = null;
 localStorage.clear();
  
-
+//===================================================
+//Form Submit || add New task
+//===================================================
 taskForm.addEventListener("submit", function (event) {
-    event.preventDefault();
+    event.preventDefault();  // prevent page reload
 
-    const taskText = taskInput.value.trim();
-    if (taskText === "") return;
+    const taskText = taskInput.value.trim(); // get input text
+    if (taskText === "") return; // ingore empty input
 
+
+    // push new tak object into tasks array
     tasks.push({
-        id: Date.now(),
-        text: taskText,
-        completed: false
+        id: Date.now(),  // unique id
+        text: taskText,  // task text
+        completed: false  // default state
     });
 
-    saveTasks(tasks);
-    renderTasks();
-    taskInput.value = "";
+    saveTasks(tasks);  // savee to localstorage
+    renderTasks();     // re-render UI
+    taskInput.value = "";  // clear input feild
 });
 
 
+//=======================================================
+//single click handle (toggle/ delete)
+//=========================================================
   taskList.addEventListener("click", function (event) {
     if (!event.target.classList.contains("task-text")&&
        !event.target.classList.contains("delete-btn")) return;
 
-    const id = Number(event.target.dataset.id);
+    const id = Number(event.target.dataset.id); // get clicked task ID
 
-    //DELETE - execute immediately
+    //DELETE - logic
+    // run immediatly when crossed is clicked
 
 
-     if (event.target.classList.contains("delete-btn")){
-        clearTimeout(clickTimer);
-        tasks =tasks.filter(task => task.id !== id);
-        saveTasks(tasks);
-        renderTasks();
+      if (event.target.classList.conatins("delete-btn")){
+        const li = event.target.closest("li");
+        li.classList.add("removing");
+
+        setTimeout(() =>{
+            tasks = tasks.filter(task => task.id !== id);
+            saveTasks (tasks);
+            renderTasks();
+        }, 200);
         return;
-     }
+      }
+      
     // TOGGLE - delay to allow dblclick cancle
     clearTimeout(clickTimer);
     clickTimer = setTimeout(() =>{
@@ -56,9 +69,16 @@ taskForm.addEventListener("submit", function (event) {
 
   });
 
+  //===========================================
+  //Save task to local storage
+  //=========================================
  function saveTasks(tasks){
     localStorage.setItem("tasks",JSON.stringify(tasks));
  }
+
+ //===================================
+ // load tasks from local storage
+ //=========================================
 
 function loadTasks(){
     const data = localStorage.getItem("tasks");
@@ -66,6 +86,10 @@ function loadTasks(){
 }
 
 
+
+//==========================================================
+//Double click -- edit task
+//===================================================
   taskList.addEventListener("dblclick", function (event) {
      clearTimeout(clickTimer); // cancle single click
 
@@ -74,14 +98,17 @@ function loadTasks(){
     const id = Number(event.target.dataset.id);
     const task = tasks.find(task => task.id === id);
 
+//  create input field for editing
     const input = document.createElement("input");
     input.type = "text";
     input.value = task.text;
     input.className = "edit-input";
 
-    event.target.replaceWith(input);
-    input.focus();
+    event.target.replaceWith(input); // Replace span with input
+    input.focus(); // auto focus
 
+
+// save edit on enter key
     input.addEventListener("keydown", function (e) {
         if (e.key === "Enter") {
             const newText = input.value.trim();
@@ -92,28 +119,39 @@ function loadTasks(){
         }
     });
 
+    // save edit when input loses focus
     input.addEventListener("blur", function () {
         saveTasks(tasks);
         renderTasks();
     });
 });
 
-
+//================================================================
+// drag start-- store dragged task
+//===================================================================================
 taskList.addEventListener("dragstart", function(event){
-    draggedTaskId = event.target.dataset.id;
-    event.target.classList.add("dragging");
+    draggedTaskId = event.target.dataset.id; // store dragged id
+    event.target.classList.add("dragging"); // visual feedback
 });
 
+
+//====================================================
+// drag end -- cleanup UI
+//==================================================
 taskList.addEventListener("dragend", function(event){
     event.target.classList.remove("dragging");
 });
 
+//==========================================================
+// drag over -- reorder tasks
+//====================================================
 taskList.addEventListener("dragover", function(event){
-    event.preventDefault();
+    event.preventDefault();// allow drop
 
     const target = event.target.closest("li");
     if (!target|| target.dataset.id === draggedTaskId) return;
 
+    // remove dragged task and insert at new position 
     const draggedIndex = taks.findIndex(t => t.id == draggedTaskId);
     const targetIndex = tasks.findIndex(t => t.id == target.dataset.id);
 
@@ -125,15 +163,20 @@ taskList.addEventListener("dragover", function(event){
     renderTasks();
 });
 
+//==================================================================================
+// Render task List
+//==========================================================
 function renderTasks() {
-    taskList.innerHTML = "";
+    taskList.innerHTML = "";  // clear UI
 
+    //apply filter (all/active/completed)
      const filteredTasks = tasks.filter(task =>{
         if (currentFilter === "active") return !task.completed;
         if (currentFilter === "completed") return task.completed;
         return true;
      });
 
+     // create task element
      filteredTasks.forEach (task =>{
         const li = document.createElement("li");
         li.draggable= true;
@@ -149,7 +192,7 @@ function renderTasks() {
         taskList.appendChild(li);
      });
 }
-
+// initial render
 renderTasks();
 
  
