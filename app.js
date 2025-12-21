@@ -200,10 +200,22 @@ function renderTasks() {
 
      const percent = total === 0 ? 0 : (completed/ total)* 100;
      document.getElementById("progressBar").style.width = percent + "%";
+function updateStats() {
+    const total = tasks.length;
+    const completed = tasks.filter(t => t.completed).length;
+    const active = total - completed;
+
+    document.getElementById("totalCount").textContent = `Total: ${total}`;
+    document.getElementById("activeCount").textContent = `Active: ${active}`;
+    document.getElementById("completedCount").textContent = `Completed: ${completed}`;
+}
+updateStats();
 
 }
 // initial render
-renderTasks();
+ renderTasks();
+ 
+
 
 const themeToggle = document.getElementById("themeToggle");
 
@@ -222,5 +234,18 @@ themeToggle.addEventListener("click", () =>{
     localStorage.setItem("theme", isDark ? "dark" : "light");
 });
  
+document.querySelector(".filters").addEventListener("click", function (event) {
+    if (event.target.tagName !== "BUTTON") return;
+
+    currentFilter = event.target.dataset.filter;
+
+    document.querySelectorAll(".filters button").forEach(btn =>
+        btn.classList.remove("active")
+    );
+    event.target.classList.add("active");
+
+    renderTasks();
+});
+
 
  

@@ -11,7 +11,7 @@
     <button id="themeToggle" class="theme-toggle">🌙 Dark</button>
  
     <main>
-        <div class:"app"> 
+        <div class:"app" class="tasks-controls"> 
             <h1>Task Manager</h1>
         <form id="taskForm">
             <label for="taskInput">New Task</label>
@@ -19,6 +19,13 @@
 
             <button  type="submit">Add Task</button>
         </form>
+      
+       <div class="stats">
+        <span id="totalCount">Total: 0</span>
+        <span id="activeCount">Active: 0</span>
+        <span id="completedCount">Completed: 0</span>
+        </div>
+
       
         <div class="filters">
             <button data-filter="all">All</button>

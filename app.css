@@ -320,3 +320,38 @@ body {
  #themeToggle:hover {
     transform:scale(1.05);
  }
+
+ .task-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 16px 0;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.stats span {
+    margin-right: 12px;
+    font-size: 0.9rem;
+    color: var(--muted);
+}
+
+.filters {
+    display: flex;
+    gap: 8px;
+}
+
+.filters button {
+    padding: 6px 12px;
+    border-radius: 999px;
+    border: none;
+    background: var(--card);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.filters button.active {
+    background: var(--accent);
+    color: white;
+}
