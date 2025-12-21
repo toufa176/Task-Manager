@@ -181,3 +181,27 @@ body {
     color: #64748b;
     text-decoration:line-through;
  }
+
+ .stats {
+    margin:15px 0;
+ }
+
+ .progress {
+    height: 6px;
+    background: #e5e7eb;
+    border-radius: 10px;
+    overflow:hidden;
+    margin-top: 6px;
+ }
+
+ #progressBar {
+    height: 100%;
+    width:0%;
+    background: linear-gradient(90deg, #6366f1, #22c55e);
+    transition: width 0.3s ease;
+ 
+ }
+
+ body.dark .progress {
+    background: #1e293b;
+ }

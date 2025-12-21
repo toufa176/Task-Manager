@@ -191,6 +191,16 @@ function renderTasks() {
 
         taskList.appendChild(li);
      });
+     //====== Stats UPDATE ===================
+     const total = tasks.length;
+     const completed = tasks.filter(t => t.completed).length;
+
+     document.getElementById("taskCount").textContent =
+     `${completed} / ${total} completed` ;
+
+     const percent = total === 0 ? 0 : (completed/ total)* 100;
+     document.getElementById("progressBar").style.width = percent + "%";
+     
 }
 // initial render
 renderTasks();
