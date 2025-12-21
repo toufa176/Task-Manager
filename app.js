@@ -247,5 +247,8 @@ document.querySelector(".filters").addEventListener("click", function (event) {
     renderTasks();
 });
 
-
- 
+ if ("serviceWorker" in navigator) {
+  navigator.serviceWorker.register("assets/js/sw.js")
+    .then(() => console.log("Service Worker registered"))
+    .catch(err => console.error("SW error", err));
+}
