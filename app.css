@@ -13,6 +13,7 @@
     font-size: 16px;
     color:#111827;
     transition: color 0.2s ease;
+    color: var(--text);
 }
 
 .filters {
@@ -128,6 +129,7 @@ body {
  .task-text.completed {
     text-decoration:line-through;
     color: #94a3b8;
+    color: var(--muted);
  }
 
  .delete-btn:hover {
@@ -260,11 +262,61 @@ body {
     outline:none;
     font-size: 16px;
     padding:6px 4px;
-    border-bottom: 2px solid #6366f1;
+    border-bottom: 2px solid #6366f1 var(--accent);
+    background: transparent;
+    color: var(--text);
+
  }
 
  li.removing{
     opacity:0;
     transform:translateX(40px);
     transition: all 0.2s ease;
+ }
+
+ :root {
+    --bg: #f9fafb;
+    --card:#ffffff;
+    --text: #111827;
+    --muted: #6b7280;
+    --accent: #6366f1;
+ }
+
+ /* Dark theme*/
+ body.dark {
+    --bg: #0f172a;
+    --card: #1e293b;
+    --text: #e5e7eb;
+    --muted: #9ca3af;
+    --accent: #818cf8;
+ }
+
+ body {
+    background: var(--bg);
+    color: var (--text);
+    transition: background 0.3s ease, color o.3s ease;
+ }
+
+ /* Task cards*/
+ #taskList li{
+    background:var(--bg);
+
+ }
+
+ /*theme toggle*/
+ 
+ #themeToggle {
+    border: none;
+    background: var(--card);
+    color: var(--text);
+    padding: 8px 12px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 18px;
+    box-shadow: 0 6px 16px rgba(0,0,0,0.1);
+    transition: all 0.25s ease;
+ }
+
+ #themeToggle:hover {
+    transform:scale(1.05);
  }

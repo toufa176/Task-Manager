@@ -200,7 +200,7 @@ function renderTasks() {
 
      const percent = total === 0 ? 0 : (completed/ total)* 100;
      document.getElementById("progressBar").style.width = percent + "%";
-     
+
 }
 // initial render
 renderTasks();
@@ -221,4 +221,6 @@ themeToggle.addEventListener("click", () =>{
     themeToggle.textContent = isDark ? "☀️ Light" : "🌙 Dark";
     localStorage.setItem("theme", isDark ? "dark" : "light");
 });
+ 
+
  
